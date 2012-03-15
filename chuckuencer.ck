@@ -1,7 +1,6 @@
-// on_off_sequence.ck
+// chuckuencer.ck
 
 fun string[] strings_from_filename(string filename) { 
-    // create an on/off array with a filename 
     FileIO fio;
     string str;
     0 => int counter;
@@ -28,6 +27,7 @@ fun void sequence(float duration, string filename) {
     while(true) {
 	0 => buf.pos;
         duration::ms => now;
+	// TODO:
 	// put the on on/off sequence into an array and iterate over the array
 	// playing with on bit "1" and silence with off bit "0"
     }
@@ -49,7 +49,7 @@ fun void  play_sequences(string filename) {
     }
 }
 
-play_sequences("/Users/hyperneato/py/polymetro/chuck_test");
+play_sequences("/Users/me/py/polymetro/chuck_test");
 
 
 
