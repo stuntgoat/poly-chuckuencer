@@ -6,18 +6,13 @@ fun string[] strings_from_filename(string filename) {
     string str;
     0 => int counter;
     string tmp_array[1000]; // up to 1000 vars, just in case.
-
-    fio.open( filename, FileIO.READ );
-
-    if( !fio.good() ) {
+    fio.open(filename, FileIO.READ);
+    if(!fio.good()) {
 	cherr <= "can't open file: " <= filename <= " for reading..." <= IO.nl();
 	me.exit();
     }
-
-    while( fio => str ) { // acquire the length of strings separated by spaces
+    while(fio => str) { // acquire the length of strings separated by spaces
 	str => tmp_array[counter];
-	//	tmp_array[counter] => strings[counter];
-
 	counter++;
     }
     string strings[counter];
@@ -27,12 +22,7 @@ fun string[] strings_from_filename(string filename) {
     return strings;
 }
 
-// "./onoff.txt" => string input;
-// int size;
-// string ham[];
-// strings_from_filename(input) @=> ham;
-
-fun void sequence(int duration, string filename) {
+fun void sequence(float duration, string filename) {
     SndBuf buf => dac;    
     filename => buf.read;
     while(true) {
@@ -47,18 +37,19 @@ fun void sequence(int duration, string filename) {
 fun void  play_sequences(string filename) {
     // within filename is a list of files to parse and load in to sequence()
     string sequences[][];
-    strings_from_filename(filename) @=> string files[];
-    for (0 => int i; i < files.size(); i++) {
+    strings_from_filename(filename) @=> string data[];
+    for (0 => int i; i < data.size(); i++) {
 	// load each filename and create a sequence object to play
-	strings_from_filename(files[i]) @=> string details[];
-	spork ~ sequence(Std.atoi(details[1]), details[0]);
+	if (i % 2 == 0) {
+	    spork ~ sequence(Std.atof(data[i]), data[i+1]);
+	}
     }
     while( true ) {
 	2::second => now;
     }
 }
 
-play_sequences("files.txt");
+play_sequences("/Users/hyperneato/py/polymetro/chuck_test");
 
 
 
